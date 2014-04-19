@@ -28,10 +28,6 @@ public class WordCount {
     }
     
     
-    // TODO: Replace this comment with your own as appropriate.
-    // Implement a method that returns an array of DataCount objects
-    // containing each unique word.  If generics confuse you, write
-    // non-generic version first and then adjust it.
     /**
      * get an array of all the DataCount objects in a given DataCounter
      * @param counter that contains DataCount objects

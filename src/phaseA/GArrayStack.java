@@ -4,14 +4,24 @@ import java.util.EmptyStackException;
 
 import providedCode.*;
 
-
+/**
+ * @author Reggie Jones
+ *
+ * CSE 332
+ * TA: HyeIn Kim
+ * Project 2
+ * GArrayStack implements a generic stack ADT using an Array
+ * 
+ * @param <T> for generics
+ */
 public class GArrayStack<T> implements GStack<T> {
 	private static final int ORIGINAL_SIZE = 10;
+	private static final int RESIZE_FACTOR = 2;
 	private T[] stack;
 	private int stackSize;
 	
 	/**
-	 * * Constructs an empty GArrayStack
+	 *  Constructs an empty GArrayStack
 	 */
 	@SuppressWarnings("unchecked")
 	public GArrayStack() {
@@ -29,6 +39,7 @@ public class GArrayStack<T> implements GStack<T> {
 
     /**
      * push adds a generic T to the top of the stack
+     * @param t a value to be pushed onto the stack
      */
     public void push(T t) {
     	if (stack.length == stackSize) {
@@ -40,7 +51,7 @@ public class GArrayStack<T> implements GStack<T> {
     /**
      * pop removes the element off the top of the stack
      * @return the deleted generic T from the top of the stack
-     * @throws EmptyStackException if stack is empty
+     * @throws EmptyStackException if stack is  already empty
      */
     public T pop() {
     	if (isEmpty()) {
@@ -77,7 +88,7 @@ public class GArrayStack<T> implements GStack<T> {
      */
     @SuppressWarnings("unchecked")
 	private void makeRoom() {
-    	int newLength = stack.length * 2;
+    	int newLength = stack.length * RESIZE_FACTOR;
     	T[] newStack = (T[]) new Object[newLength];
     	for (int i = 0; i < stack.length; i++) {
     		newStack[i] = stack[i];

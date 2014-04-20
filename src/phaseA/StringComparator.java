@@ -4,8 +4,12 @@ import providedCode.*;
 
 /**
  * @author Reggie Jones
+ * CSE 332
+ * TA: HyeIn Kim
+ * Project 2
  * 
- * StringComparator is used for comparing 2 strings to each other
+ * StringComparator implements the Comparator<String> interface
+ * and is used for comparing 2 strings to each other.
  */
 
 public class StringComparator implements Comparator<String>{
@@ -18,6 +22,7 @@ public class StringComparator implements Comparator<String>{
 	 */
 	@Override
 	public int compare(String s1, String s2) {
+		//need to add capititilization cases?
 		int i = 0;
 		while (i < s1.length() && i < s2.length()) {
 			if (s1.charAt(i) < s2.charAt(i)) {

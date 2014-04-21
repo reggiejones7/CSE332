@@ -28,7 +28,7 @@ public class WordCount {
     }
     
     
-    /**
+    /*
      * get an array of all the DataCount objects in a given DataCounter
      * @param counter that contains DataCount objects
      * @return an array of DataCount objects containing each unique word

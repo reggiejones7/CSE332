@@ -82,7 +82,7 @@ public class GArrayStack<T> implements GStack<T> {
     	return Arrays.toString(stack);
     }
     
-    /**
+    /*
      * makeRoom helper function makes sure there is enough room in array stack
      *  to push another generic
      */

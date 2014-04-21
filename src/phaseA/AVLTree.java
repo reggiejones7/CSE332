@@ -7,32 +7,13 @@ import providedCode.*;
  * TA: HyeIn Kim
  * Project 2
  * 
- * AVLTree extends BinarySearchTree class using an AVLTree. [give properties that avltrees hold]
- */
-  
-//finish commenting class header and all function headers
-
-/**
- * TODO: REPLACE this comment with your own as appropriate.
- * AVLTree must be a subclass of BinarySearchTree<E> and must use
- * inheritance and calls to superclass methods to avoid unnecessary
- * duplication or copying of functionality.
- * X1. Create a subclass of BSTNode, perhaps named AVLNode.
- * 2. Override incCount method such that it creates AVLNode instances
- *    instead of BSTNode instances.
- * X3. Do NOT "replace" the left and right fields in BSTNode with new
- *    left and right fields in AVLNode.  This will instead mask the
- *    super-class fields (i.e., the resulting node would actually have
- *    four node fields, with code accessing one pair or the other
- *    depending on the type of the references used to access the
- *    instance).  Such masking will lead to highly perplexing and
- *    erroneous behavior. Instead, continue using the existing BSTNode
- *    left and right fields.
- * 4. Cast left and right fields to AVLNode whenever necessary in your
- *    AVLTree. This will result a lot of casts, so you can also follow
- *    the hints given during section to reduce the number of casts.
- * 5. Do NOT override the dump method of BinarySearchTree & the toString
- *    method of DataCounter. They are used for grading.
+ * AVLTree extends BinarySearchTree class using an AVLTree. The AVLTree
+ * is self balancing and holds the properties of an AVLTree- namely that
+ * the nodes ordering holds BST standards, but also that the absolute 
+ * value of the difference in the heights of every nodes two children is
+ * at most 1. 
+ *
+ *
  * TODO: Develop appropriate JUnit tests for your AVLTree (TestAVLTree
  * in testA package).
  */
@@ -47,8 +28,13 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 		super(c);
 	}
 	
-	//1. check if data is already in the tree, if so just ++. no need for balancing or updating height.
-	//2. go until you hit the bottom. insert node there. then balance and update heights.
+	/**
+	 * incCount increments the count of a node if it exists, otherwise creates
+	 * a node with the data and sets its count to 1.
+	 * @param data is a generic piece of data that's being stored in 
+	 *        the nodes of the tree.
+	 * Post: AVLTree will be balanced and hold BST ordering properties
+	 */
 	@Override
 	public void incCount(E data) {
 		if (overallRoot == null) {
@@ -58,13 +44,12 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 		}
 	}
 	
-	/**
-	 * incExistingNode will increment the count of a Node if it already
-	 * exists in the AVLTree and return true, or else it will only return false.
-	 * @param data the corresponding key AVLTree that needs incrementing in the AVLTree
-	 * @param currentNode the current node we are checking
-	 * @return true if data is in the AVLTree, false otherwise
-	 */
+	
+	 // incExistingNode will increment the count of a Node if it already
+	 // exists in the AVLTree and return true, or else it will only return false.
+	 // @param data the corresponding key that needs incrementing in the AVLTree
+	 // @param currentNode the current node we are checking
+	 // @return true if data is in the AVLTree, false otherwise
 	private boolean incNodeIfExists(E data, BSTNode currentNode) {
 		if (currentNode == null) {
 			return false;
@@ -74,14 +59,17 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 		if (cmp == 0) {
 			currentNode.count++;
 			return true;
-		} else if (cmp < 0) {
+		} else if (cmp < 0) {			
 			return incNodeIfExists(data, currentNode.left);
-		} else {  //cmp > 0
+		} else {
 			return incNodeIfExists(data, currentNode.right);
 		}
 	}
 	
-	//pre: data cannot already be in tree
+	// incCountHelper adds a new node with the given data to the tree
+	// @param data data to be added to tree
+	// @param root the root of the tree that data's getting added to
+	// pre: data cannot already be in the tree
 	private BSTNode incCountHelper(E data, BSTNode root) {
 		if (root == null) {
 			return new AVLNode(data);
@@ -89,23 +77,23 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 			int cmp = comparator.compare(data, root.data);
 			if (cmp < 0) {
 				root.left = balance(incCountHelper(data, root.left));
-			} else {  //cmp > 0 
+			} else {  
 				root.right = balance(incCountHelper(data, root.right));
 			}
 		}
-		return root;
+		return balance(root);
 	}
 	
-	/**
-	 * 
-	 * Case 1 = left-left case
-	 * Case 2 = left-right case
-	 * Case 3 = right-left case
-	 * Case 4 = right-right case
-	 * @param root root is the root of the AVLTree that's getting balanced
-	 * @return a BSTNode that holds the properties of a AVLTree
-	 */
-	//make sure i'm supposed to return BSTNode and not AVLNode
+	
+	 // balances the tree from a given root, returns the same tree if already
+	 // balanced.
+	 // Case 1 = left-left case
+	 // Case 2 = left-right case
+	 // Case 3 = right-left case
+	 // Case 4 = right-right case
+	 // @param root root is the root of the AVLTree that's getting balanced
+	 // @return a BSTNode that holds the properties of a AVLTree
+	 // pre: the tree must be only unbalanced from the previous insert
 	private BSTNode balance(BSTNode root) {
 		//updateHeight first because we just inserted a node from incCount
 		updateHeight(root);
@@ -122,17 +110,19 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 		} else if (imbalanceCase == 4) { 
 			return rotateLeft(root);
 		} else {
-			//root wasn't unbalanced
+			//root was balanced
 			return root;
 		}
 	}
 	
-	//check if overallroot is the one thats getting rotated because you have to reset overall root manually
+	// rotates a given root to the right and returns the new root of that tree
+	// checks if overallroot is the one thats getting rotated because you have
+	// to set overall root manually if it is.
 	private BSTNode rotateRight(BSTNode root) {
 		BSTNode temp = root.left;
 		root.left = temp.right;
 		temp.right = root;
-		updateHeight(root);  //update root first because its below temp now
+		updateHeight(root);  //update root first because its child of temp now
 		updateHeight(temp);
 		
 		if (root == overallRoot) {
@@ -142,6 +132,8 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 		return root;
 	}
 	
+	//rotates a given root to the left and returns the new root of that tree
+	// if overallRoot is the one getting rotated on then it gets set correctly
 	private BSTNode rotateLeft(BSTNode root) {
 		BSTNode temp = root.right;
 		root.right = temp.left;
@@ -156,9 +148,14 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 		return root;
 	}
 	
+	// returns an int of the case of imbalance on a given root, 
+	// returns -1 if the tree is balanced
+	// case 1 = left-left
+	// case 2 = left-right
+	// case 3 = right-left
+	// case 4 = right-right
 	private int getImbalanceCase(BSTNode root) {
-		//no root with height under 2 can be imbalanced so don't bother checking
-		//prob get rid of first case
+		//no root with height under 2 can be unbalanced
 		if (height(root) < 2) {
 			return -1;
 		}
@@ -176,11 +173,11 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 				return 4;
 			}
 		} else {
-			//root wasn't unbalanced
 			return -1;
 		}
 	}
 	
+	//returns the height of a given node
 	//height of a null node is -1
 	private int height(BSTNode node) {
 		if (node == null) {
@@ -191,25 +188,42 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 		return n.height;
 	}
 	
+	//updates the height of a given node
 	private void updateHeight(BSTNode node) {
 		@SuppressWarnings("unchecked")
 		AVLNode n = (AVLNode) node;
 		n.height = Math.max(height(node.left), height(node.right)) + 1;
 	}
 	
+	
+	/**
+	 * prints an in-order traversal of the AVLTree to check tree has BST ordering
+	 */
+	public void print() {
+		print2(overallRoot);
+	}
+	
+	// does the printing of the AVLTree in in-order traversal
+	private void print2(BSTNode root) {
+		if (root == null) {
+			return;
+		}
+		print2(root.left);
+		System.out.println(root.data + ", ");
+		print2(root.right);
+	}
 
-    /**
-     * private inner class that extends BSTNode to represent a node 
-     * in the AVLTree. Each node includes data of type E, an int count of the data,
-     * left and right children, as well as the nodes height in the tree.
-     */
+    
+     // private inner class that extends BSTNode to represent a node 
+     // in the AVLTree. Each node includes data of type E, an int count of the data,
+     // left and right children, as well as the nodes height in the tree.
 	private class AVLNode extends BSTNode {
 		public int height;   //the height of this node in the tree
 		
+		// constructs an AVLNode with a given d as the nodes data
 		public AVLNode(E d) {
 			super(d);
 			height = 0;
 		}
 	}
-
 }

@@ -22,7 +22,6 @@ public class StringComparator implements Comparator<String>{
 	 */
 	@Override
 	public int compare(String s1, String s2) {
-		//need to add capititilization cases?
 		int i = 0;
 		while (i < s1.length() && i < s2.length()) {
 			if (s1.charAt(i) < s2.charAt(i)) {
@@ -35,7 +34,7 @@ public class StringComparator implements Comparator<String>{
 		//ran out of chars to compare in at least one of the strings
 		if (s1.length() == s2.length()) {
 			return 0;
-		} else if (s1.length() == 0) {
+		} else if (s1.length() == i) {
 			return -1;
 		} else {
 			return 1;

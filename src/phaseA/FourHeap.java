@@ -1,6 +1,14 @@
 package phaseA;
 import providedCode.*;
-
+import java.util.NoSuchElementException;
+/**
+ * @author Tristan Riddell
+ * CSE 332
+ * TA: HyeIn Kim
+ * Project 2
+ * 
+ * FourHeap implements heap interface using a 4-ary heap.
+ */
 
 /**
  * TODO: Replace this comment with your own as appropriate.
@@ -37,33 +45,129 @@ import providedCode.*;
  *    should return the same element as Java's PriorityQueue's poll().
  */
 public class FourHeap<E> extends Heap<E> {
+	//constant value which determines initial size of heap array
+	private static final int INIT_SIZE = 50;
+    // Function object to compare elements of type E, passed in constructor.
+    protected Comparator<? super E> comparator;
 	
 	public FourHeap(Comparator<? super E> c) {
 		// TODO: To-be implemented. Replace the dummy parameter to superclass constructor.
-		super(0);
+		super(INIT_SIZE);
+		size = 0;
+		comparator = c;
 	}
 
+	//increases array size if necessary, then inserts item at end of array
+	//percolates item upwards to maintain a valid heap
 	@Override
 	public void insert(E item) {
-		// TODO Auto-generated method stub
+		if (heapArray.length == size) {
+			enlargeArray();
+		}
+		
+		heapArray[size] = item;
+		percolateUp(size);
+		size++;
 	}
 
 	@Override
+	//minimum value according to given comparator is set to tree root. 
+	//returns first element in heapArray.
 	public E findMin() {
-		// TODO Auto-generated method stub
-		return null;
+		if (size == 0) {
+			throw new NoSuchElementException("The heap is empty.");
+		}
+		return heapArray[0];
 	}
 
 	@Override
 	public E deleteMin() {
-		// TODO Auto-generated method stub
-		return null;
+		if (size == 0) {
+			throw new NoSuchElementException("The heap is empty.");
+
+		}
+		
+		E min = heapArray[0];
+		heapArray[0] = heapArray[size-1];
+		percolateDown(0);
+		size--;
+		return min;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
+		if (size == 0) {
+			return true;
+		}
 		return false;
+	}
+	
+	/**
+	 * 
+	 * percolates value at given index upwards to correct location
+	 * for a valid heap, larger than parent and smaller than children
+	 * @param index location in heapArray which is being percolated
+	 */
+	private void percolateUp(int index) {
+		E temp;
+		int currentIndex = index;
+		
+		while(currentIndex != 0) {
+			int parentIndex = (currentIndex + (4 - (currentIndex% 4)) / 4) - 1;
+			if (comparator.compare(heapArray[currentIndex], heapArray[parentIndex]) < 0) {
+				temp = heapArray[parentIndex];
+				heapArray[parentIndex] = heapArray[currentIndex];
+				heapArray[currentIndex] = temp;
+				currentIndex = parentIndex;
+			} else {
+				//pre condition: parent is less than currentIndex,
+				//index has been percolated to correct spot.
+				break;
+			}
+		}
+	}
+	/**
+	 * 
+	 * percolates value at given index downwards to correct location
+	 * for a valid heap, larger than parent and smaller than children
+	 * @param index location in heapArray which is being percolated
+	 */
+	private void percolateDown(int index) {
+		int childIndex = (4 * index) + 1;
+		int currentIndex = index;
+		while(childIndex < size) {
+			int minChild = childIndex;
+			//saves index of smallest child
+			for (int i = 1; i < 4; i++) {
+				if (comparator.compare(heapArray[minChild], heapArray[childIndex+i]) > 0) {
+					minChild = childIndex + i;
+				}
+			}
+			//compares smallest child to parent
+			if (comparator.compare(heapArray[minChild], heapArray[currentIndex]) < 0) {
+				//if smallest child smaller than parent, swap with parent
+				E temp = heapArray[currentIndex];
+				heapArray[currentIndex] = heapArray[minChild];
+				heapArray[minChild] = temp;
+				currentIndex = minChild;
+				childIndex = (4 * currentIndex) + 1;
+			} else {
+				//pre: smallest child is greater than node, 
+				//node is in correct spot
+				break;
+			}
+		}
+	}
+	
+	
+	// called when array is full to create a new array with double size
+	@SuppressWarnings("unchecked")
+	private void enlargeArray() {
+		E[] old = heapArray;
+		heapArray = (E[]) new Object[size*2];
+		for (int i = 0; i < size; i++ ) {
+			heapArray[i] = old[i];
+		}
 	}
 
 }

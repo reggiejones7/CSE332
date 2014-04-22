@@ -66,8 +66,9 @@ public class FourHeap<E> extends Heap<E> {
 		}
 		
 		heapArray[size] = item;
-		percolateUp(size);
 		size++;
+		percolateUp(size-1);
+
 	}
 
 	@Override
@@ -89,8 +90,8 @@ public class FourHeap<E> extends Heap<E> {
 		
 		E min = heapArray[0];
 		heapArray[0] = heapArray[size-1];
-		percolateDown(0);
 		size--;
+		percolateDown(0);
 		return min;
 	}
 
@@ -113,7 +114,12 @@ public class FourHeap<E> extends Heap<E> {
 		int currentIndex = index;
 		
 		while(currentIndex != 0) {
-			int parentIndex = (currentIndex + (4 - (currentIndex% 4)) / 4) - 1;
+			int parentIndex;
+			if (currentIndex % 4 == 0) {
+				parentIndex = (currentIndex / 4) -1;
+			} else {
+				parentIndex = (currentIndex + (4 - (currentIndex% 4)) / 4) - 1;
+			}
 			if (comparator.compare(heapArray[currentIndex], heapArray[parentIndex]) < 0) {
 				temp = heapArray[parentIndex];
 				heapArray[parentIndex] = heapArray[currentIndex];

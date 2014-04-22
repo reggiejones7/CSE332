@@ -1,6 +1,14 @@
 package phaseA;
 import providedCode.*;
 /**
+ * @author Tristan Riddell
+ * CSE 332
+ * TA: HyeIn Kim
+ * Project 2
+ * 
+ * MoveToFrontList extends DataCounter class using a linked list.
+ */
+/**
  * TODO: REPLACE this comment with your own as appropriate.
  * 1. The list is typically not sorted.
  * 2. Add new items (with a count of 1) to the front of the list.

@@ -1,4 +1,5 @@
 package main;
+import phaseA.FourHeap;
 import providedCode.Comparator;
 
 
@@ -30,8 +31,22 @@ public class Sorter {
         }
     }
     
+    /**
+     * Will sort a given generic array using the Heapsort algorithm
+     * @param array array thats going to get sorted
+     * @param comparator for comparing the elements in array
+     */
     public static <E> void heapSort(E[] array, Comparator<E> comparator) {
-    	// TODO: To-be implemented
+    	//?I think the FourHeap on the left should be a PriorityQueue for more generalization?
+    	FourHeap<E> heap = new FourHeap<E>(comparator);
+    	
+    	for (int i = 0; i < array.length; i++) {
+    		heap.insert(array[i]);
+    	}
+    	
+    	for (int i = 0; i < array.length; i++) {
+    		array[i] = heap.deleteMin();
+    	}
     }
     
     /**

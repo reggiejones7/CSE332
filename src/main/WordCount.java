@@ -56,6 +56,30 @@ public class WordCount {
     }
     
     
+    // Sorts a given DataCount counts by a given type of sort
+    // sort can be "insertion", "heap", "other", or "topK" where K is an integer
+    private static void Sort(String sort, DataCount<String>[] counts) {
+    	DataCountStringComparator comparator = new DataCountStringComparator();
+    	if (sort.equals("insertion")) {
+    		Sorter.insertionSort(counts, comparator);
+    	} else if (sort.equals("heap")) {
+    		Sorter.heapSort(counts, comparator);
+    	/*} else if (sort.equals("other")) {
+    		Sorter.otherSort(counts, comparator);
+    	} else if (sort.substring(0, 3).equals("top")) {
+    		Sorter.topKSort(counts, comparator,	Integer.parseInt(sort.substring(3)));
+    	*/
+    	}
+    }
+    
+    // System exits from incorrect command line arguments
+    private static void argError(String arg) {
+    	System.err.println("Incorrect arg \"" + arg + "\"");
+    	System.err.println("Usage: [ -b | -a | -m | -h ] [ -is | -hs | -os | -k <number>] <filename>");
+		System.exit(1);
+    }
+    
+    
     /** 
      *  TODO: Replace this comment with your own as appropriate.  Edit
  	 *  this method (including replacing the dummy parameter
@@ -63,14 +87,53 @@ public class WordCount {
  	 *  spec.
  	 */
     public static void main(String[] args) {
-        if (args.length != 1) {
+        if (args.length != 3 && args.length != 4) {
             System.err.println("Usage: filename of document to analyze");
             System.exit(1);
         }
-        DataCounter<String> counter = new BinarySearchTree<String>(new StringComparator());
-        countWords(args[0], counter); 
+        for (String arg : args) {
+        	System.out.println(arg);
+        }
+        
+    	DataCounter<String> counter = null;
+    	String arg0 = args[0];
+    	switch (arg0) {
+    		case "-b": counter = new BinarySearchTree<String>(new StringComparator());
+    				   break;
+    		case "-a": counter = new AVLTree<String>(new StringComparator());
+    				   break;
+    		case "-m": counter = new MoveToFrontList<String>(new StringComparator());
+    			  	   break;
+    		/*case "-h": counter = new HashTable<String>(new StringComparator());
+    		 			  break;
+    		 */
+    		default: argError(arg0);
+    	}
+
+    	String arg1 = args[1];
+    	String sort = "";
+    	String file = args[2];
+    	switch(arg1) {
+    		case "-is": sort = "insertion";
+    					break;
+    		case "-hs": sort = "heap";
+    					break;
+    		/*case "-os": sort = "other";
+    					  
+    		case "-k": 	try {
+					        sort = "top" + Integer.parseInt(args[3]);
+					    } catch (NumberFormatException e) {
+					        argError(arg[3]);
+					    }
+    		
+    				   file = args[4];	
+    		*/
+    		default: argError(arg1);
+    	}
+    	
+        countWords(file, counter); 
         DataCount<String>[] counts = getCountsArray(counter);
-        Sorter.insertionSort(counts, new DataCountStringComparator());
+        Sort(sort, counts);
         printDataCount(counts);
     }
 }

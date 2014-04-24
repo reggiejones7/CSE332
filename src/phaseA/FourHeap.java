@@ -50,15 +50,23 @@ public class FourHeap<E> extends Heap<E> {
     // Function object to compare elements of type E, passed in constructor.
     protected Comparator<? super E> comparator;
 	
+    /**
+     * 
+     * constructs an empty FourHeap
+	 * @param c is a 'function object' in order for elements of type E
+	 * 	      to be compared.
+     */
 	public FourHeap(Comparator<? super E> c) {
-		// TODO: To-be implemented. Replace the dummy parameter to superclass constructor.
 		super(INIT_SIZE);
 		size = 0;
 		comparator = c;
 	}
 
-	//increases array size if necessary, then inserts item at end of array
-	//percolates item upwards to maintain a valid heap
+	/**
+	 * increases array size if necessary, then inserts item at end of array
+	 * percolates item upwards to maintain a valid heap
+	 * @param item generic data being added to the heap
+	 */
 	@Override
 	public void insert(E item) {
 		if (heapArray.length == size) {
@@ -71,9 +79,12 @@ public class FourHeap<E> extends Heap<E> {
 
 	}
 
+	/**
+	 * minimum value according to given comparator is set to tree root. 
+	 * @return first element in heapArray.
+	 * @throws NoSuchElementException if the heap is empty
+	 */
 	@Override
-	//minimum value according to given comparator is set to tree root. 
-	//returns first element in heapArray.
 	public E findMin() {
 		if (size == 0) {
 			throw new NoSuchElementException("The heap is empty.");
@@ -81,6 +92,12 @@ public class FourHeap<E> extends Heap<E> {
 		return heapArray[0];
 	}
 
+	/**
+	 * deletes and returns the min value in the heap, then reforms
+	 * the heap 
+	 * @return first element in heap
+	 * @param NoSuchElementException
+	 */
 	@Override
 	public E deleteMin() {
 		if (size == 0) {
@@ -95,6 +112,9 @@ public class FourHeap<E> extends Heap<E> {
 		return min;
 	}
 
+	/**
+	 * @return true if heap is empty, false otherwise
+	 */
 	@Override
 	public boolean isEmpty() {
 		if (size == 0) {
@@ -103,8 +123,7 @@ public class FourHeap<E> extends Heap<E> {
 		return false;
 	}
 	
-	/**
-	 * 
+	/* 
 	 * percolates value at given index upwards to correct location
 	 * for a valid heap, larger than parent and smaller than children
 	 * @param index location in heapArray which is being percolated
@@ -132,8 +151,7 @@ public class FourHeap<E> extends Heap<E> {
 			}
 		}
 	}
-	/**
-	 * 
+	/* 
 	 * percolates value at given index downwards to correct location
 	 * for a valid heap, larger than parent and smaller than children
 	 * @param index location in heapArray which is being percolated

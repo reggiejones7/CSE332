@@ -80,6 +80,7 @@ public class WordCount {
     }
     
     
+    
     /** 
      *  TODO: Replace this comment with your own as appropriate.  Edit
  	 *  this method (including replacing the dummy parameter
@@ -88,11 +89,7 @@ public class WordCount {
  	 */
     public static void main(String[] args) {
         if (args.length != 3 && args.length != 4) {
-            System.err.println("Usage: filename of document to analyze");
-            System.exit(1);
-        }
-        for (String arg : args) {
-        	System.out.println(arg);
+            argError("length");
         }
         
     	DataCounter<String> counter = null;

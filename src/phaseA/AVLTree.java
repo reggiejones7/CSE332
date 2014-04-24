@@ -1,4 +1,6 @@
 package phaseA;
+import java.util.NoSuchElementException;
+
 import providedCode.*;
 
 /**
@@ -10,12 +12,8 @@ import providedCode.*;
  * AVLTree extends BinarySearchTree class using an AVLTree. The AVLTree
  * is self balancing and holds the properties of an AVLTree- namely that
  * the nodes ordering holds BST standards, but also that the absolute 
- * value of the difference in the heights of every nodes two children is
+ * value of the difference in the heights of every nodes' two children is
  * at most 1. 
- *
- *
- * TODO: Develop appropriate JUnit tests for your AVLTree (TestAVLTree
- * in testA package).
  */
 public class AVLTree<E> extends BinarySearchTree<E> {
 
@@ -44,8 +42,44 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 		}
 	}
 	
+	/**
+	 * gets the height of the top of the AVLTree
+	 * note: height of single node is 0
+	 * @return int of the height of the root of the AVLTree
+	 */
+	public int getHeight() {
+		return height(overallRoot);
+	}
 	
-	 // incExistingNode will increment the count of a Node if it already
+	
+	/**
+	 * returns a boolean of if the AVLTree is balanced, in other words
+	 * if the absolute value of the difference in the heights of the roots'
+	 * two children is at most 1. 
+	 * @return true if balanced, false otherwise
+	 * @throws NoSuchElementException if nothing is in tree yet
+	 */
+	public boolean verifyBalance() {
+		if (overallRoot == null) {
+			throw new NoSuchElementException();
+		}
+		return getImbalanceCase(overallRoot) == -1;
+	}
+	
+	/**
+	 * gets the data in the root node
+	 * @return data stored at the root of the AVLTree
+	 * @throws NoSuchElementException is nothing is in tree yet
+	 */
+	public E getRootData() {
+		if (overallRoot == null) {
+			throw new NoSuchElementException();
+		}
+		return overallRoot.data;
+	}
+	
+	
+	 // incExistingNode will increment the count of a node if it already
 	 // exists in the AVLTree and return true, or else it will only return false.
 	 // @param data the corresponding key that needs incrementing in the AVLTree
 	 // @param currentNode the current node we are checking
@@ -67,8 +101,6 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 	}
 	
 	// incCountHelper adds a new node with the given data to the tree
-	// @param data data to be added to tree
-	// @param root the root of the tree that data's getting added to
 	// pre: data cannot already be in the tree
 	private BSTNode incCountHelper(E data, BSTNode root) {
 		if (root == null) {
@@ -87,15 +119,10 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 	
 	 // balances the tree from a given root, returns the same tree if already
 	 // balanced.
-	 // Case 1 = left-left case
-	 // Case 2 = left-right case
-	 // Case 3 = right-left case
-	 // Case 4 = right-right case
-	 // @param root root is the root of the AVLTree that's getting balanced
 	 // @return a BSTNode that holds the properties of a AVLTree
 	 // pre: the tree must be only unbalanced from the previous insert
 	private BSTNode balance(BSTNode root) {
-		//updateHeight first because we just inserted a node from incCount
+		//updateHeight first because we just inserted a node
 		updateHeight(root);
 		int imbalanceCase = getImbalanceCase(root);
 		
@@ -195,24 +222,6 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 		n.height = Math.max(height(node.left), height(node.right)) + 1;
 	}
 	
-	
-	/**
-	 * prints an in-order traversal of the AVLTree to check tree has BST ordering
-	 */
-	public void print() {
-		print2(overallRoot);
-	}
-	
-	// does the printing of the AVLTree in in-order traversal
-	private void print2(BSTNode root) {
-		if (root == null) {
-			return;
-		}
-		print2(root.left);
-		System.out.println(root.data + ", ");
-		print2(root.right);
-	}
-
     
      // private inner class that extends BSTNode to represent a node 
      // in the AVLTree. Each node includes data of type E, an int count of the data,

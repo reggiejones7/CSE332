@@ -46,7 +46,7 @@ import java.util.NoSuchElementException;
  */
 public class FourHeap<E> extends Heap<E> {
 	//constant value which determines initial size of heap array
-	private static final int INIT_SIZE = 50;
+	private static final int INIT_SIZE = 10;
     // Function object to compare elements of type E, passed in constructor.
     protected Comparator<? super E> comparator;
 	
@@ -138,7 +138,7 @@ public class FourHeap<E> extends Heap<E> {
 			if (currentIndex % 4 == 0) {
 				parentIndex = (currentIndex / 4) -1;
 			} else {
-				parentIndex = (currentIndex + (4 - (currentIndex % 4)) / 4) - 1;
+				parentIndex = (((currentIndex + (4 - (currentIndex % 4)))) / 4) - 1;
 			}
 			if (comparator.compare(heapArray[currentIndex], heapArray[parentIndex]) < 0) {
 				temp = heapArray[parentIndex];

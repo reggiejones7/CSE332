@@ -107,6 +107,7 @@ public class FourHeap<E> extends Heap<E> {
 		
 		E min = heapArray[0];
 		heapArray[0] = heapArray[size-1];
+		heapArray[size-1] = null;
 		size--;
 		percolateDown(0);
 		return min;
@@ -137,7 +138,7 @@ public class FourHeap<E> extends Heap<E> {
 			if (currentIndex % 4 == 0) {
 				parentIndex = (currentIndex / 4) -1;
 			} else {
-				parentIndex = (currentIndex + (4 - (currentIndex% 4)) / 4) - 1;
+				parentIndex = (currentIndex + (4 - (currentIndex % 4)) / 4) - 1;
 			}
 			if (comparator.compare(heapArray[currentIndex], heapArray[parentIndex]) < 0) {
 				temp = heapArray[parentIndex];
@@ -163,6 +164,9 @@ public class FourHeap<E> extends Heap<E> {
 			int minChild = childIndex;
 			//saves index of smallest child
 			for (int i = 1; i < 4; i++) {
+				if (heapArray[childIndex+i] == null) {
+					break;
+				}
 				if (comparator.compare(heapArray[minChild], heapArray[childIndex+i]) > 0) {
 					minChild = childIndex + i;
 				}
@@ -182,8 +186,10 @@ public class FourHeap<E> extends Heap<E> {
 			}
 		}
 	}
-	
-	
+	//used for junit testing
+	public int getSize() {
+		return size;
+	}
 	// called when array is full to create a new array with double size
 	@SuppressWarnings("unchecked")
 	private void enlargeArray() {

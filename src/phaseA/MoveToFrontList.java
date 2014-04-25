@@ -17,7 +17,7 @@ public class MoveToFrontList<E> extends DataCounter<E> {
 	protected int size;
     // Function object to compare elements of type E, passed in constructor.
     protected Comparator<? super E> comparator; 
-    //node used as pointer to front of linked list.
+    //pointer to first node in list
     protected listNode listFront;
 	
 	/**
@@ -25,9 +25,8 @@ public class MoveToFrontList<E> extends DataCounter<E> {
 	 * @param c is a 'function object' in order for elements of type E
 	 * 	      to be compared.
 	 */
-
 	public MoveToFrontList(Comparator<? super E> c) {
-		listFront = null;
+		listFront = new listNode(null, null);
         size = 0;
         comparator = c;
 	}
@@ -44,31 +43,30 @@ public class MoveToFrontList<E> extends DataCounter<E> {
 	@Override
 	public void incCount(E data) {
 		
-		if (listFront == null) {
+		if (listFront.next == null) {
 			//list is empty, creates first element
-			listFront = new listNode(data, null, null);
+			listFront.next = new listNode(data, null);
 			return;
 		}
 		
 		listNode currentNode = listFront;
-		while(currentNode != null) {
-			if ((comparator.compare(data, currentNode.data)) == 0) {
+		while(currentNode.next != null) {
+			if ((comparator.compare(data, currentNode.next.data)) == 0) {
 				//node found, count incremented.
-				currentNode.count++;
-				//currentNode.previous.next = currentNode.next;
-				//currentNode.next = listFront;
-				//currentNode.next.previous = currentNode;
-				//listFront = currentNode;
-				return;
+				currentNode.next.count++;
+				listNode tempNode = currentNode.next;
+				currentNode.next = currentNode.next.next;
+				tempNode.next = listFront.next;
+				listFront.next = tempNode;
+				return; 
 			}
 			currentNode = currentNode.next;
 		}
 		//node not found, create new node and put it at front of list
-		listNode newNode = new listNode(data, listFront, null);
-		newNode.next.previous = newNode;
-		listFront = newNode;	
+		listNode newNode = new listNode(data, listFront.next);
+		listFront.next = newNode;	
 	}
-
+	
     /**
      * The number of unique data elements in the structure.
      * @return the number of unique data elements in the structure.
@@ -86,21 +84,21 @@ public class MoveToFrontList<E> extends DataCounter<E> {
 	@Override
 	public int getCount(E data) {
 		listNode currentNode = listFront;
-		while (currentNode != null) {
-			if ((comparator.compare(data, currentNode.data)) == 0) {
-				//node found, count returned
-				//currentNode.previous.next = currentNode.next;
-				//currentNode.next = listFront;
-				//currentNode.next.previous = currentNode;
-				//listFront = currentNode;
-				return currentNode.count;
+		while (currentNode.next != null) {
+			if ((comparator.compare(data, currentNode.next.data)) == 0) {
+			//	node found, count returned
+				listNode tempNode = currentNode.next;
+				currentNode.next = currentNode.next.next;
+				tempNode.next = listFront.next;
+				listFront.next = tempNode;
+				return listFront.next.count;
 			}
 			currentNode = currentNode.next;
 		}
 		//node not found, return 0
 		return 0;
 	}
-
+	
     /**
      * Clients must not increment counts between an iterator's creation and its
      * final use. Data structures need not check this.
@@ -109,7 +107,7 @@ public class MoveToFrontList<E> extends DataCounter<E> {
 	@Override
 	public SimpleIterator<DataCount<E>> getIterator() {
     	return new SimpleIterator<DataCount<E>>() {  
-    		listNode nextNode = listFront;
+    		listNode nextNode = listFront.next;
     		public boolean hasNext() {
     			if 	(nextNode != null) {
     				return true;
@@ -131,24 +129,24 @@ public class MoveToFrontList<E> extends DataCounter<E> {
     /**
      * Inner class to represent a node in the list. Each node includes
      * a data of type E and an integer count. 
-     */ 
-    protected class listNode {
+     */    protected class listNode {
         public E data;          // The data element stored at this node.
         public int count;       // The count for this data element.
         public listNode next;
-        public listNode previous;
-
 
         /**
          * Create a new data node and increment the list size.
          */
-        public listNode(E d, listNode n, listNode p) {
+        public listNode(E d, listNode n) {
             data  = d;
             count = 1;
             size++;
             next = n;
-            previous = p;
         }
     }
+     	//returns data of front node, used for junit testing
+     	public E getFront() {
+     		return listFront.next.data;
+     	}
 
 }

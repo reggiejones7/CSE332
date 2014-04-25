@@ -144,5 +144,9 @@ public class MoveToFrontList<E> extends DataCounter<E> {
             next = n;
         }
     }
+     	//returns data of front node, used for junit testing
+     	public E getFront() {
+     		return listFront.next.data;
+     	}
 
 }

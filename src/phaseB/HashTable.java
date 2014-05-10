@@ -106,7 +106,7 @@ public class HashTable<E> extends DataCounter<E> {
 	 * has been incremented in the hashtable) 
 	 * @param data is the element of which you want the count of
 	 * @return int of how many times the element has been incremented
-	 * 			if it's in the hashtable, return -1 if not in hashtable
+	 * 			if it's in the hashtable, return 0 if not in hashtable
 	 */
 	@Override
 	public int getCount(E data) {
@@ -119,7 +119,7 @@ public class HashTable<E> extends DataCounter<E> {
 			}
 			bucket = bucket.next;
 		}
-		return -1;
+		return 0;
 	}	
 
 	 /**

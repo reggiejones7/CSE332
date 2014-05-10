@@ -2,42 +2,25 @@ package phaseB;
 import phaseA.GArrayStack;
 import providedCode.*;
 
-
-/**
- * TODO: Replace this comment with your own as appropriate.
- * 1. You may implement any kind of HashTable discussed in class; the
- *    only restriction is that it should not restrict the size of the
- *    input domain (i.e., it must accept any key) or the number of
- *    inputs (i.e., it must grow as necessary).
- * 2. You should use this implementation with the -h option.
- * 3. Your HashTable should rehash as appropriate (use load factor as
- *    shown in the class).
- * 4. To use your HashTable for WordCount, you will need to be able to
- *    hash strings. Implement your own hashing strategy using charAt
- *    and length. Do NOT use Java's hashCode method.
- * 5. HashTable should be able to grow at least up to 200,000. We are
- *    not going to test input size over 200,000 so you can stop
- *    resizing there (of course, you can make it grow even larger but
- *    it is not necessary).
- * 6. We suggest you to hard code the prime numbers. You can use this
- *    list: http://primes.utm.edu/lists/small/100000.txt NOTE: Make
- *    sure you only hard code the prime numbers that are going to be
- *    used. Do NOT copy the whole list!
- * TODO: Develop appropriate JUnit tests for your HashTable.
- */
-
 /***
  * 
  * @author Reggie Jones
- * @param <E>
+ * @param <E> for generics
  * CSE 332
  * TA: Hye In Kim
- * --fill in class description--
- * using seperate chaining, resize when .75 load factor
+ * 
+ * HashTable is an implementation of a dictionary that extends DataCounter class. 
+ * On a high level implementation note, the hash table uses seperate chaining 
+ * to resolve collisions. when HashTable reaches a load factor of 
+ * .75 (number of elements / table size), it automatically rehashes for performance 
+ * benefits. The HashTable will grow to support atleast an input size of 200,000 
+ * elements while still being efficient.
+ * 
  */
 public class HashTable<E> extends DataCounter<E> {
-	private static final int[] PRIMES = {47, 101, 211, 431, 863, 1733, 3467, 6947, 13913, 27961, 55927, 111949, 223087, 447779};
-	private static final int PRIMEINDEXMAX = 13; //will allow atleast 200,000 entries in hashtable
+	private static final int[] PRIMES = {47, 101, 211, 431, 863, 1733, 3467, 6947, 13913, 
+										27961, 55927, 111949, 223087, 447779};
+	private static final int PRIMEINDEXMAX = 13; //will allow atleast 200,000 entries
 	private static final double LOADFACTORMAX = .75;
 	
 	private int primeIndex;
@@ -46,6 +29,13 @@ public class HashTable<E> extends DataCounter<E> {
 	private Comparator<? super E> comparator; 
 	private Hasher<E> hasher;
 	
+	/**
+	 * Constructs an empty HashTable
+	 * @param c is a 'function object' in order for elements of type E
+	 * 	      to be compared.
+	 * @param h is a hasher that will be used to do the hashing
+	 * 		  for each of the elements in the hashtable
+	 */
 	@SuppressWarnings("unchecked")
 	public HashTable(Comparator<? super E> c, Hasher<E> h) {
 		comparator = c;
@@ -55,12 +45,18 @@ public class HashTable<E> extends DataCounter<E> {
 		size = 0;
 	}
 	
+	/**
+	 * incCount increments the count of a bucket if it exists, otherwise
+	 * it creates a new bucket and adds it to the HashTable. Rehashes the
+	 * table if the load factor exceeds .75
+	 * @param data is the element that the count will be incremented on
+	 */
 	@Override
 	public void incCount(E data) {
 		double loadFactor = (double) getSize() / table.length;
 		//check if table needs to be rehashed
 		if (loadFactor > LOADFACTORMAX && primeIndex < PRIMEINDEXMAX) {
-			//reHash();
+			reHash();
 		}
 		
 		int hash = hasher.hash(data) % table.length;
@@ -76,8 +72,11 @@ public class HashTable<E> extends DataCounter<E> {
 		
 		//not in table, so create new hashbucket
 		table[hash] = new HashBucket(data, table[hash]);
+		size++;
 	}
 	
+	// reHash rehashes the table after approximately doubling the length of
+	// table (new table length will always be prime)
 	private void reHash() {
 		int tblL = table.length;
 		@SuppressWarnings("unchecked")
@@ -86,23 +85,29 @@ public class HashTable<E> extends DataCounter<E> {
 			HashBucket bucket = table[i];
 			while (bucket != null) {
 				int newHash = hasher.hash(bucket.data) % auxTable.length;
-				auxTable[newHash] = new HashBucket(bucket.data, auxTable[newHash]);
+				auxTable[newHash] = new HashBucket(bucket.data, auxTable[newHash], bucket.count);
 				bucket = bucket.next;
 			}
 		}
 		table = auxTable;
-		//debugging
-		/*for (int i = 0; i < table.length; i++) {
-			if (table[i] != null) {
-				System.out.println(table[i].data);
-			}
-		}*/
 	}
+	
+	/**
+	 * returns the number of elements in the HashTable
+	 * @return int of number of elements
+	 */
 	@Override
 	public int getSize() {
 		return size;
 	}
 
+	/**
+	 * returns the count for a given data element (how many times it 
+	 * has been incremented in the hashtable) 
+	 * @param data is the element of which you want the count of
+	 * @return int of how many times the element has been incremented
+	 * 			if it's in the hashtable, return -1 if not in hashtable
+	 */
 	@Override
 	public int getCount(E data) {
 		int hash = hasher.hash(data) % table.length;
@@ -114,11 +119,14 @@ public class HashTable<E> extends DataCounter<E> {
 			}
 			bucket = bucket.next;
 		}
-		//bucket is null, data is not in the hash table-maybe throw error instead?
 		return -1;
 	}	
 
-	/** {@inhericDoc} */ //??is this aight?
+	 /**
+     * Clients must not increment counts between an iterator's creation and its
+     * final use. Data structures need not check this.
+     * @return an iterator for the elements.
+     */
 	@Override
 	public SimpleIterator<DataCount<E>> getIterator() {
 		// Anonymous inner class that keeps a stack of yet-to-be-processed buckets
@@ -147,20 +155,26 @@ public class HashTable<E> extends DataCounter<E> {
     	};
 	}
 	
-	public class HashBucket {
-		public HashBucket next;
+	// HashBucket is a private inner class that represents the individual
+	// buckets in the HashTable. Each Bucket is implemented as a linked list
+	// for seperate chaining
+	private class HashBucket {
+		public HashBucket next;	//pointer to next HashBucket
 		public E data;
 		public int count;
 		
-		public HashBucket(E d) {
-			this(d, null);
+		// Constructs HashBucket from a given data element with
+		// a given next HashBucket
+		public HashBucket(E d, HashBucket n) {
+			this(d, n, 1);
 		}
 		
-		public HashBucket(E d, HashBucket n) {
-			size++;
-			count = 1;
+		// Constructs HashBucket from a given data element, HashBucket, and count
+		// supplying a count is useful for when rehashing the table
+		public HashBucket(E d, HashBucket n, int c) {
 			data = d;
 			next = n;
+			count = c;
 		}
 	}
 }

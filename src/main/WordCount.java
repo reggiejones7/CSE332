@@ -104,7 +104,7 @@ public class WordCount {
     		case "-m": counter = new MoveToFrontList<String>(new StringComparator());
     			  	   break;
     		case "-h": counter = new HashTable<String>(new StringComparator(), new StringHasher());
-    		 			  break;
+    		 		   break;
     		default: argError(arg0);
     	}
 

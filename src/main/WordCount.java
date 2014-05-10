@@ -2,6 +2,8 @@ package main;
 import java.io.IOException;
 
 import phaseA.*;
+import phaseB.HashTable;
+import phaseB.StringHasher;
 import providedCode.*;
 
 /**
@@ -101,9 +103,8 @@ public class WordCount {
     				   break;
     		case "-m": counter = new MoveToFrontList<String>(new StringComparator());
     			  	   break;
-    		/*case "-h": counter = new HashTable<String>(new StringComparator());
+    		case "-h": counter = new HashTable<String>(new StringComparator(), new StringHasher());
     		 			  break;
-    		 */
     		default: argError(arg0);
     	}
 

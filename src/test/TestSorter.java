@@ -98,12 +98,27 @@ public class TestSorter {
 		count[0] = new DataCount<String>("f", 1);
 		
 		Sorter.heapSort(count, cmp);
+		assertData(new String[]{"a", "b", "c", "d", "e", "f"}, count);
+	}
+	
+	@Test(timeout = TIMEOUT)
+	public void test_heap_sort_with_data_count_diff_counts() {
+		//this case is testing that when the counts are the same it 
+		//uses the comparator to order the elements
+		@SuppressWarnings("unchecked")
+		DataCount<String>[] count = new DataCount[6]; 
+		count[5] = new DataCount<String>("a", 6);
+		count[4] = new DataCount<String>("b", 5);
+		count[3] = new DataCount<String>("c", 4);
+		count[2] = new DataCount<String>("d", 3);
+		count[1] = new DataCount<String>("e", 2);
+		count[0] = new DataCount<String>("f", 1);
+		
+		Sorter.heapSort(count, cmp);
 		for (int i = 0; i < 6; i++) {
-			System.out.println(" " + count[i].data);
+			System.out.println(" " + count[i].count);
 		}
-		assertEquals("a", count[0].data);
-		assertEquals("b", count[1].data);
-		assertEquals("c", count[2].data);
+		assertCounts(new int[]{6, 5, 4, 3, 2, 1}, count);
 	}
 	
 	

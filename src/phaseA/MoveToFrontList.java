@@ -129,7 +129,8 @@ public class MoveToFrontList<E> extends DataCounter<E> {
     /**
      * Inner class to represent a node in the list. Each node includes
      * a data of type E and an integer count. 
-     */    protected class listNode {
+     */    
+	protected class listNode {
         public E data;          // The data element stored at this node.
         public int count;       // The count for this data element.
         public listNode next;

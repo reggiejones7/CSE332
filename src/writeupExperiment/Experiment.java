@@ -12,8 +12,9 @@ import java.util.*;
  * of the data structures and sorting algos we implemented in phases A & B.
  * All combinations are tested against 4 different files- the-new-atlantis, 
  * hamlet, quest which are twice as many words as the file listed before it.
- * Also, the.txt which is approximately same size as hamlet to test not only
- * how word count affects the runtime, but also how count of unique words affects it.
+ * Also, same.txt (all the same word) which is approximately same size as hamlet 
+ * to test not only how word count affects the runtime, but also how count of 
+ * unique words affects it.
  * 
  */
 public class Experiment {
@@ -27,7 +28,7 @@ public class Experiment {
 	    combinations = new TreeMap<String, String[]>();
 	    
 	    putCombinations("the-new-atlantis.txt"); //17k words
-	    putCombinations("the.txt");  //34k of the word 'the'
+	    putCombinations("same.txt");  //34k of the word 'the'
 	    putCombinations("hamlet.txt"); //34k words
 	    putCombinations("quest.txt"); //68k words
 	    

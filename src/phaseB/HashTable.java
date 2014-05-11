@@ -18,11 +18,12 @@ import providedCode.*;
  * 
  */
 public class HashTable<E> extends DataCounter<E> {
+	//primes will allow atleast 200,000 entries
 	private static final int[] PRIMES = {47, 101, 211, 431, 863, 1733, 3467, 6947, 13913, 
 										27961, 55927, 111949, 223087, 447779};
-	private static final int PRIMEINDEXMAX = 13; //will allow atleast 200,000 entries
-	private static final double LOADFACTORMAX = .75;
+	public static final double LOADFACTORMAX = .75;
 	
+	//index of which prime being used for table length 
 	private int primeIndex;
 	private HashBucket[] table;
 	private int size;
@@ -55,7 +56,7 @@ public class HashTable<E> extends DataCounter<E> {
 	public void incCount(E data) {
 		double loadFactor = (double) getSize() / table.length;
 		//check if table needs to be rehashed
-		if (loadFactor > LOADFACTORMAX && primeIndex < PRIMEINDEXMAX) {
+		if (loadFactor > LOADFACTORMAX && primeIndex < PRIMES.length) {
 			reHash();
 		}
 		
@@ -85,7 +86,8 @@ public class HashTable<E> extends DataCounter<E> {
 			HashBucket bucket = table[i];
 			while (bucket != null) {
 				int newHash = hasher.hash(bucket.data) % auxTable.length;
-				auxTable[newHash] = new HashBucket(bucket.data, auxTable[newHash], bucket.count);
+				auxTable[newHash] = new HashBucket(bucket.data, 
+													auxTable[newHash], bucket.count);
 				bucket = bucket.next;
 			}
 		}
@@ -100,7 +102,7 @@ public class HashTable<E> extends DataCounter<E> {
 	public int getSize() {
 		return size;
 	}
-
+	
 	/**
 	 * returns the count for a given data element (how many times it 
 	 * has been incremented in the hashtable) 
@@ -153,6 +155,33 @@ public class HashTable<E> extends DataCounter<E> {
         		return new DataCount<E>(bucket.data, bucket.count);
         	}
     	};
+	}
+	
+	/**
+	 * get the length of the array thats the implementation of hash table. For testing purposes
+	 * @return length of hash table
+	 */
+	public int getTableLength() {
+		return table.length;
+	}
+	
+	/**
+	 * get an array of number of items in each bucket corresponding to the index
+	 * of the internal table array.
+	 * @return array of how many elements in each bucket of the hash table
+	 */
+	public int[] getBucketsCount() {
+		int[] counts = new int[getSize()];
+		for (int i = 0; i < getSize(); i++) {
+			int count = 0;
+			HashBucket bucket = table[i];
+			while (bucket != null) {
+				count++;
+				bucket = bucket.next;
+			}
+			counts[i] = count;
+		}
+		return counts;
 	}
 	
 	// HashBucket is a private inner class that represents the individual

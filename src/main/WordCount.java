@@ -66,11 +66,11 @@ public class WordCount {
     		Sorter.insertionSort(counts, comparator);
     	} else if (sort.equals("heap")) {
     		Sorter.heapSort(counts, comparator);
-    	/*} else if (sort.equals("other")) {
+    	} else if (sort.equals("other")) {
     		Sorter.otherSort(counts, comparator);
     	} else if (sort.substring(0, 3).equals("top")) {
     		Sorter.topKSort(counts, comparator,	Integer.parseInt(sort.substring(3)));
-    	*/
+    	
     	}
     }
     
@@ -116,17 +116,17 @@ public class WordCount {
     					break;
     		case "-hs": sort = "heap";
     					break;
-    		/*case "-os": sort = "other";
-    					  
-    		case "-k": 	try {
+    		case "-os": sort = "other";
+    					break;  
+    		/*case "-k": 	try {
 					        sort = "top" + Integer.parseInt(args[3]);
 					    } catch (NumberFormatException e) {
 					        argError(arg[3]);
 					    }
     		
     				   file = args[4];	
-    		*/
-    		default: argError(arg1);
+    		
+    		default: argError(arg1);    */
     	}
     	
         countWords(file, counter); 

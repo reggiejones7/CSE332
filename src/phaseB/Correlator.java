@@ -11,8 +11,6 @@ import providedCode.DataCounter;
 import providedCode.FileWordReader;
 import providedCode.SimpleIterator;
 
-
-
 /**
  * 
  * @author Reggie Jones
@@ -37,6 +35,12 @@ public class Correlator {
     private static int totalWords1;
     private static int totalWords2;
 
+    /**
+     * Outputs a double that is that represents the quantitative correlation
+     * between two given files.
+     * @param args in the form of 
+     *  		[ -b | -a | -m | -h ] <filename> <filename>
+     */
 	public static void main(String[] args) {
     	if (args.length != 3) {
             argError("length");
@@ -82,10 +86,10 @@ public class Correlator {
     		}
     	}
     	
-    	System.out.println(variance);  // IMPORTANT: Do not change printing format. Just print the double.
+    	System.out.println(variance);  
     }
     
-	// countWords goes through a given file and 
+	// countWords goes through a given file and adds them to the given counter
 	// @param file name of file
 	// @param counter a DataCounter to count the data
 	// @param fileNum to increment the correct totalWords counter

@@ -8,7 +8,11 @@ import org.junit.Test;
 import providedCode.DataCount;
 import providedCode.DataCountStringComparator;
 
-
+/**
+ * 
+ * @author Tristan Riddell
+ *
+ */
 public class TestSorter {
 	private static final int TIMEOUT = 2000;
 	private DataCountStringComparator cmp;

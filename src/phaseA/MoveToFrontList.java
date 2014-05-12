@@ -11,7 +11,6 @@ import providedCode.*;
  * is accessed or added, it is moved to the front of the list.
  * This uses the concept of temporal locality to maximize efficiency.
  */
-/** */
 public class MoveToFrontList<E> extends DataCounter<E> {
 	//number of nodes in list
 	protected int size;

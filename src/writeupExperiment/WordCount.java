@@ -15,8 +15,11 @@ import main.Sorter;
  */
 public class WordCount {
 	
-	// TODO: Replace this comment with your own as appropriate.
-	// You may modify this method if you want.
+	/*
+	 * counts the words in a given file and adds them to the given DataCounter
+	 * @param file of words you want counted
+	 * @param counter, where you want the count of words to be added to
+	 */
     private static void countWords(String file, DataCounter<String> counter) {
         try {
             FileWordReader reader = new FileWordReader(file);
@@ -30,7 +33,6 @@ public class WordCount {
             System.exit(1);
         }
     }
-    
     
     /*
      * get an array of all the DataCount objects in a given DataCounter
@@ -48,18 +50,7 @@ public class WordCount {
  		}
  		return dataCount;
  	}
-    
  	
-    // IMPORTANT: Used for grading. Do not modify the printing *format*!
-    // Otherwise you may modify this method (its signature, or internals) 
-    // if you want.
-    private static void printDataCount(DataCount<String>[] counts) {
-    	for (DataCount<String> c : counts) {
-            System.out.println(c.count + "\t" + c.data);
-        }
-    }
-    
-    
     // Sorts a given DataCount counts by a given type of sort
     // sort can be "insertion", "heap", "other", or "topK" where K is an integer
     private static void Sort(String sort, DataCount<String>[] counts) {
@@ -70,9 +61,8 @@ public class WordCount {
     		Sorter.heapSort(counts, comparator);
     	} else if (sort.equals("other")) {
     		Sorter.otherSort(counts, comparator);
-    	/*} else if (sort.substring(0, 3).equals("top")) {
+    	} else if (sort.substring(0, 3).equals("top")) {
     		Sorter.topKSort(counts, comparator,	Integer.parseInt(sort.substring(3)));
-    	*/
     	}
     }
     
@@ -85,10 +75,11 @@ public class WordCount {
     
     
     /** 
-     *  TODO: Replace this comment with your own as appropriate.  Edit
- 	 *  this method (including replacing the dummy parameter
- 	 *  checking below) to process all parameters as shown in the
- 	 *  spec.
+     *  Calculates the frequency of each word in a file in descending order.
+     *  If two words occur the same amount of times, they will be ordered
+     *  according to alphabetical order.
+     *  @param args in the form of 
+     *  		[ -b | -a | -m | -h ] [ -is | -hs | -os | -k <number>] <filename>
  	 */
     public static void main(String[] args) {
         if (args.length != 3 && args.length != 4) {
@@ -134,6 +125,5 @@ public class WordCount {
         countWords(file, counter); 
         DataCount<String>[] counts = getCountsArray(counter);
         Sort(sort, counts);
-        //printDataCount(counts);
     }
 }

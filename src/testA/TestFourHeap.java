@@ -9,7 +9,11 @@ import org.junit.Test;
 import phaseA.FourHeap;
 import providedCode.Comparator;
 
-
+/**
+ * 
+ * @author Tristan Riddell
+ *
+ */
 public class TestFourHeap {
 	private static final int TIMEOUT = 3000;
 	FourHeap<Integer> testHeap;

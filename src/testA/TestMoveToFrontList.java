@@ -9,6 +9,11 @@ import phaseA.MoveToFrontList;
 import providedCode.Comparator;
 import providedCode.DataCounter;
 
+/**
+ * 
+ * @author Tristan Riddell
+ *
+ */
 
 public class TestMoveToFrontList {
 	private static final int TIMEOUT = 3000; //3 seconds

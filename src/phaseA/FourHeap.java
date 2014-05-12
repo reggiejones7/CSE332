@@ -186,10 +186,15 @@ public class FourHeap<E> extends Heap<E> {
 			}
 		}
 	}
-	//used for junit testing
+	
+	/**
+	 * gets size of heap, used for junit testing purposes
+	 * @return size of heap
+	 */
 	public int getSize() {
 		return size;
 	}
+	
 	// called when array is full to create a new array with double size
 	@SuppressWarnings("unchecked")
 	private void enlargeArray() {

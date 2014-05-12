@@ -18,7 +18,7 @@ import providedCode.*;
  * 
  */
 public class HashTable<E> extends DataCounter<E> {
-	//primes will allow atleast 200,000 entries
+	//PRIMES allows atleast 200,000 entries
 	private static final int[] PRIMES = {47, 101, 211, 431, 863, 1733, 3467, 6947, 13913, 
 										27961, 55927, 111949, 223087, 447779};
 	public static final double LOADFACTORMAX = .75;
@@ -55,7 +55,6 @@ public class HashTable<E> extends DataCounter<E> {
 	@Override
 	public void incCount(E data) {
 		double loadFactor = (double) getSize() / table.length;
-		//check if table needs to be rehashed
 		if (loadFactor > LOADFACTORMAX && primeIndex < PRIMES.length) {
 			reHash();
 		}
@@ -76,7 +75,7 @@ public class HashTable<E> extends DataCounter<E> {
 		size++;
 	}
 	
-	// reHash rehashes the table after approximately doubling the length of
+	// rehashes the table after approximately doubling the length of
 	// table (new table length will always be prime)
 	private void reHash() {
 		int tblL = table.length;

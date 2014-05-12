@@ -13,7 +13,7 @@ import providedCode.Hasher;
 public class StringHasher implements Hasher<String> {
 	
 	/**
-	 * hash returns a positive integer of the hash of a given String
+	 * hash returns a (positive) integer of the hash of a given String
 	 * @param s is a String to be hashed
 	 * @return an int that represents the hash of the String
 	 */

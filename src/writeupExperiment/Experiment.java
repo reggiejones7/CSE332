@@ -25,6 +25,14 @@ public class Experiment {
 	
 	private static Map<String, String[]> combinations;
 
+	/**
+	 * Does multiple experiments from README.
+	 * 1st experiment is analyzing runtimes for the combinations
+	 * of data structures paired with sorting algorithms.
+	 * 2nd experiment analyzes the runtime of the sorting algorithms
+	 * when 2 different hash functions are used for a hashtable.
+	 * 
+	 */
 	public static void main(String[] args) {
 	    combinations = new TreeMap<String, String[]>();
 	    
@@ -32,7 +40,6 @@ public class Experiment {
 	    putCombinations("same.txt");  //34k of the word 'same'
 	    putCombinations("hamlet.txt"); //34k words
 	    putCombinations("quest.txt"); //68k words
-	    
 	    
 	    for (String descript : combinations.keySet()) {
 	    	double aveTime = getAverageRuntime(combinations.get(descript));

@@ -1,5 +1,6 @@
 package writeupExperiment;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -37,15 +38,34 @@ public class Experiment {
 	    	double aveTime = getAverageRuntime(combinations.get(descript));
 	    	System.out.println(descript + " " + (int)aveTime);
 	    }
-	
+	    
+	    
+	    //Experimentation part 2- Hashing
+	    String[] insertion = new String[]{"-h", "-is", "hamlet.txt"};
+	    String[] other = new String[]{"-h", "-os", "hamlet.txt"};
+	    String[] heap = new String[]{"-h", "-hs", "hamlet.txt"};
+	    double insertionTime = getAverageRuntime(insertion);
+	    double otherTime = getAverageRuntime(other);
+	    double heapTime = getAverageRuntime(heap);
+	    
+	    try {
+		    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("hashOutput.txt", true)));
+		    out.println("\n==================");
+		    out.println("Insertion " + insertionTime);
+		    out.println("Other " + otherTime);
+		    out.println("Heap " + heapTime);
+		    out.close();
+	    } catch (IOException e) {
+	    	System.out.println("couldn't find hashOutput.txt");
+	    }
 	}
 	
-	//puts the combos of structures/sorts and a given filename
+	//puts all combos of structures/sorts and a given filename
 	//into the combinations map
 	private static void putCombinations(String fileName) {
 		String name = fileName.substring(0, fileName.lastIndexOf("."));
 		//keys are formatted datastructureSorterFilename
-		/*combinations.put("hashInsertion" + name , new String[]{"-h", "-is", fileName});
+		combinations.put("hashInsertion" + name , new String[]{"-h", "-is", fileName});
 	    combinations.put("hashHeap" + name, new String[]{"-h", "-hs", fileName});
 	    combinations.put("hashOther" + name, new String[]{"-h", "-os", fileName});
 	    
@@ -56,7 +76,7 @@ public class Experiment {
 	    combinations.put("avlInsertion" + name, new String[]{"-a", "-is", fileName});
 	    combinations.put("avlHeap" + name, new String[]{"-a", "-hs", fileName});
 	    combinations.put("avlOther" + name, new String[]{"-a", "-os", fileName});
-	    */
+	    
 	    combinations.put("moveInsertion" + name, new String[]{"-m", "-is", fileName});
 	    combinations.put("moveHeap" + name, new String[]{"-m", "-hs", fileName});
 	    combinations.put("moveOther" + name, new String[]{"-m", "-os", fileName});

@@ -22,7 +22,11 @@ public class StringHasher2 implements Hasher<String> {
 	public int hash(String s) {
 		int hash = 0;
 		for (int i = 0; i < s.length(); i++) {
-			hash += (int) (s.charAt(i) * Math.pow(37, i));
+			if (i == 0) {
+				hash += 10 * ((int) s.charAt(i));
+			} else {
+				hash += (int) s.charAt(i);
+			}
 		}
 		return Math.abs(hash);
 	}

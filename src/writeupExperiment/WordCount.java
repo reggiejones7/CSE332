@@ -111,14 +111,6 @@ public class WordCount {
     					break;
     		case "-os": sort = "other";
     					break;
-    		/*case "-k": 	try {
-					        sort = "top" + Integer.parseInt(args[3]);
-					    } catch (NumberFormatException e) {
-					        argError(arg[3]);
-					    }
-    		
-    				   file = args[4];	
-    		*/
     		default: argError(arg1);
     	}
     	

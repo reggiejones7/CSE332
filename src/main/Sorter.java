@@ -51,22 +51,34 @@ public class Sorter {
     	}
     }
     
-    /**
-     * TODO: REPLACE this comment with your own as appropriate.  In
-     * topKSort, you will need to use a different comparator which
-     * considers the element with the lowest count to be the
-     * "smallest". You should *NOT* change how your FourHeap
-     * interprets the comparator result.  The heap should always interpret
-     * a negative number from the comparator as the first argument being
-     * "smaller" than the second.
-     * 
-     * Make sure topK sort only prints the first k elements. In 
-     * WordCount, you can either modify the signature of the existing
-     * print method or add another print method for topKSort.
+	/**
+     * Sorts k elements with top count in the array  using heap sort
+     * in ascending order of count. If two elements have
+     * the same count, they should be ordered according to the comparator.
+     * @param counts array to be sorted.
+     * @param comparator for comparing elements.
+     * @param k number of top count elements to print
      */
     public static <E> void topKSort(E[] array, Comparator<E> comparator, int k) {
-    	// TODO: To-be implemented (the order of elements at index >= k does not matter)
-    }
+    	if (k >= array.length) {
+    		k = array.length;
+    	}
+    	Heap<E> heap = new FourHeap<E>(comparator);
+    	for (int i = 0; i < k; i++) {
+    		heap.insert(array[i]);
+    	}
+    	
+    	for (int i = k; i < array.length; i++) {
+    		if (comparator.compare(array[i], heap.findMin()) > 0) {
+    			heap.deleteMin();
+    			heap.insert(array[i]);
+    		}
+    	}
+    	
+    	for (int i = 0; i < k; i++) {
+    		array[i] = heap.deleteMin();
+    	}	
+    }    
     
 	/**
      * Sort the count array in descending order of count. using quicksort.

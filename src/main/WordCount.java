@@ -4,6 +4,7 @@ import java.io.IOException;
 import phaseA.*;
 import phaseB.HashTable;
 import phaseB.StringHasher;
+import phaseB.topKComparator;
 import providedCode.*;
 
 /**
@@ -62,6 +63,7 @@ public class WordCount {
     // sort can be "insertion", "heap", "other", or "topK" where K is an integer
     private static void Sort(String sort, DataCount<String>[] counts) {
     	DataCountStringComparator comparator = new DataCountStringComparator();
+    	topKComparator topKComp = new topKComparator();
     	if (sort.equals("insertion")) {
     		Sorter.insertionSort(counts, comparator);
     	} else if (sort.equals("heap")) {
@@ -69,7 +71,7 @@ public class WordCount {
     	} else if (sort.equals("other")) {
     		Sorter.otherSort(counts, comparator);
     	} else if (sort.substring(0, 3).equals("top")) {
-    		Sorter.topKSort(counts, comparator,	Integer.parseInt(sort.substring(3)));
+    		Sorter.topKSort(counts, topKComp,	Integer.parseInt(sort.substring(3)));
     	
     	}
     }
@@ -118,20 +120,32 @@ public class WordCount {
     					break;
     		case "-os": sort = "other";
     					break;  
-    		/*case "-k": 	try {
-					        sort = "top" + Integer.parseInt(args[3]);
-					    } catch (NumberFormatException e) {
-					        argError(arg[3]);
-					    }
+    		case "-k": 	//try {
+					        sort = "top" + Integer.parseInt(args[2]);
+					    //} catch (NumberFormatException e) {
+					     //   argError(args[2]);
+					   // }
     		
-    				   file = args[4];	
-    		
-    		default: argError(arg1);    */
+    				   file = args[3];	
+    				   break;
+    		default: argError(arg1);   
     	}
     	
         countWords(file, counter); 
         DataCount<String>[] counts = getCountsArray(counter);
         Sort(sort, counts);
+        if (sort.substring(0, 3).equals("top")) {
+        	printTopCount(counts, Integer.parseInt(sort.substring(3)));
+        	
+        } else  {
         printDataCount(counts);
+        }
+    }
+
+
+    private static void printTopCount(DataCount<String>[] counts, int k) {
+    	for (int i = 0; i < k; i++) {
+            System.out.println(counts[i].count + "\t" + counts[i].data);
+    	}
     }
 }

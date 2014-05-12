@@ -28,7 +28,7 @@ public class Experiment {
 	    combinations = new TreeMap<String, String[]>();
 	    
 	    putCombinations("the-new-atlantis.txt"); //17k words
-	    putCombinations("same.txt");  //34k of the word 'the'
+	    putCombinations("same.txt");  //34k of the word 'same'
 	    putCombinations("hamlet.txt"); //34k words
 	    putCombinations("quest.txt"); //68k words
 	    
@@ -45,7 +45,7 @@ public class Experiment {
 	private static void putCombinations(String fileName) {
 		String name = fileName.substring(0, fileName.lastIndexOf("."));
 		//keys are formatted datastructureSorterFilename
-		combinations.put("hashInsertion" + name , new String[]{"-h", "-is", fileName});
+		/*combinations.put("hashInsertion" + name , new String[]{"-h", "-is", fileName});
 	    combinations.put("hashHeap" + name, new String[]{"-h", "-hs", fileName});
 	    combinations.put("hashOther" + name, new String[]{"-h", "-os", fileName});
 	    
@@ -56,10 +56,10 @@ public class Experiment {
 	    combinations.put("avlInsertion" + name, new String[]{"-a", "-is", fileName});
 	    combinations.put("avlHeap" + name, new String[]{"-a", "-hs", fileName});
 	    combinations.put("avlOther" + name, new String[]{"-a", "-os", fileName});
-	    
-	    combinations.put("moveInsertion" + name, new String[]{"-h", "-is", fileName});
-	    combinations.put("moveHeap" + name, new String[]{"-h", "-hs", fileName});
-	    combinations.put("hashOther" + name, new String[]{"-h", "-os", fileName});
+	    */
+	    combinations.put("moveInsertion" + name, new String[]{"-m", "-is", fileName});
+	    combinations.put("moveHeap" + name, new String[]{"-m", "-hs", fileName});
+	    combinations.put("moveOther" + name, new String[]{"-m", "-os", fileName});
 	}
 	
 	//return average runtime in miliseconds.

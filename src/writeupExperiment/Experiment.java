@@ -34,7 +34,7 @@ public class Experiment {
 	    putCombinations("quest.txt"); //68k words
 	    
 	    
-	    for (String descript: combinations.keySet()) {
+	    for (String descript : combinations.keySet()) {
 	    	double aveTime = getAverageRuntime(combinations.get(descript));
 	    	System.out.println(descript + " " + (int)aveTime);
 	    }

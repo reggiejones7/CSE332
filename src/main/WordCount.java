@@ -128,9 +128,8 @@ public class WordCount {
     		case "-os": sort = "other";
     					break;  
     		case "-k":  sort = "top" + Integer.parseInt(args[2]);
-    		
-    				   file = args[3];	
-    				   break;
+    					file = args[3];	
+    					break;
     		default: argError(arg1);   
     	}
     	

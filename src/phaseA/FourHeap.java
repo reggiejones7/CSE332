@@ -16,9 +16,7 @@ import java.util.NoSuchElementException;
  * 
  */
 
-/**
 
- */
 public class FourHeap<E> extends Heap<E> {
 	//constant value which determines initial size of heap array
 	private static final int INIT_SIZE = 10;

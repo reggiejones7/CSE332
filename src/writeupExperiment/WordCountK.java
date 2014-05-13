@@ -1,6 +1,7 @@
-package main;
+package writeupExperiment;
 import java.io.IOException;
 
+import main.Sorter;
 import phaseA.*;
 import phaseB.HashTable;
 import phaseB.StringHasher;
@@ -11,7 +12,7 @@ import providedCode.*;
  * An executable that counts the words in a files and prints out the counts in
  * descending order. You will need to modify this file.
  */
-public class WordCount {
+public class WordCountK {
 
 	
 	// TODO: Replace this comment with your own as appropriate.
@@ -134,19 +135,16 @@ public class WordCount {
         countWords(file, counter); 
         DataCount<String>[] counts = getCountsArray(counter);
         Sort(sort, counts);
-        if (sort.substring(0, 3).equals("top")) {
-        	printTopCount(counts, Integer.parseInt(sort.substring(3)));
+       // if (sort.substring(0, 3).equals("top")) {
+       // 	printTopCount(counts, Integer.parseInt(sort.substring(3)));
         	
-        } else  {
-        printDataCount(counts);
-        }
+      //  } else{
+       // printTopCount(counts, 500);
+        //}
     }
 
 
     private static void printTopCount(DataCount<String>[] counts, int k) {
-    	if (k > counts.length) {
-    		k = counts.length;
-    	}
     	for (int i = 0; i < k; i++) {
             System.out.println(counts[i].count + "\t" + counts[i].data);
     	}

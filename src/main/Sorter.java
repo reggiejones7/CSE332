@@ -90,12 +90,14 @@ public class Sorter {
     	quickSort(array, comparator, 0, array.length - 1);
     }
     
+    //simple private function used to swap two elements in an array.
     private static <E> void swap(E[] array, int x, int y) {
     	E temp = array[x];
     	array[x] = array[y];
     	array[y] = temp;
     }
     
+    //recursive quicksort function called by othersort.
     private static <E> void quickSort(E[] array, Comparator<E> comparator, int lo, int hi) {
     	if (lo >= hi) {
     		return;
@@ -105,25 +107,9 @@ public class Sorter {
     	quickSort(array, comparator, pivotIndex + 1, hi);
     }	
     
+    //helper function to quicksort, finds a pivot and partitions a given section of an array
     private static <E> int partition(E[] array, Comparator<E> comparator, int lo, int hi) {
     	int pivot = (hi+lo)/2;
-    	/*if (comparator.compare(array[med],array[lo]) < 0) {
-    		if (comparator.compare(array[med],array[hi]) < 0) {
-    			if (comparator.compare(array[hi],array[lo]) < 0) {
-    				pivot = hi;
-    			} else {
-    				pivot = lo;
-    			}
-    		} else {
-    			pivot = med;
-    		}
-    	} else if (comparator.compare(array[med],array[hi]) < 0) {
-    		pivot = med;
-    	} else if (comparator.compare(array[hi],array[lo]) < 0) {
-    		pivot = lo;
-    	} else {
-    		pivot = hi;
-    	}*/
     	swap(array, lo, pivot);
     	int i = lo + 1;
     	int j = hi;
@@ -147,60 +133,4 @@ public class Sorter {
     	}
     	return i;
     }
-    
- /*   private static <E> boolean mergeSortHelper(E[] array, E[] auxArray, Comparator<E> comparator, int lo, int hi) {
-    	if (hi - lo == 1) {
-            if (comparator.compare(array[lo],array[hi]) > 0) {
-            	auxArray[hi] = array[lo];
-            	auxArray[lo] = array[hi];
-            }
-            else {
-            	auxArray[hi] = array[hi];
-            	auxArray[lo] = array[lo];
-            }
-            return true;
-    	} else if(hi == lo) {
-    		auxArray[hi] = array[hi];
-    		return true;
-    	} else {
-    		int lowerHi = ((hi - lo)/2) + lo;
-    		int higherLo = lowerHi + 1;
-    		mergeSortHelper(array, auxArray, comparator, lo, lowerHi);
-    		boolean mergeToMain = mergeSortHelper(array, auxArray, comparator, higherLo, hi);
-
-    		int pointerLo = lo;
-    		int pointerHi = higherLo;
-    		int auxIndex = lo;
-			E[] mergeArray;
-			E[] auxSpace;
-    		if (mergeToMain) {
-    			mergeArray = array;
-    			auxSpace = auxArray;
-    		} else {
-    			mergeArray = auxArray;
-    			auxSpace = array;
-    		}
-	    	while ((pointerLo != higherLo) && (pointerHi != hi + 1)) {
-	            if (comparator.compare(auxSpace[pointerLo],auxSpace[pointerHi]) < 0) {
-	            	mergeArray[auxIndex] = auxSpace[pointerLo];
-	            	pointerLo++;
-	            } else {
-	            	mergeArray[auxIndex] = auxSpace[pointerHi];
-	            	pointerHi++;
-	            }
-	        	auxIndex++;
-	    	}
-	    	while (pointerLo != higherLo) {
-	        	mergeArray[auxIndex] = auxSpace[pointerLo];
-	        	pointerLo++;
-	        	auxIndex++;
-	    	}
-	    	while (pointerHi != hi + 1) {
-	        	mergeArray[auxIndex] = auxSpace[pointerHi];
-	        	pointerHi++;
-	        	auxIndex++;
-	    	}	    	
-	    	return !(mergeToMain);
-	    }
-    }*/
 }

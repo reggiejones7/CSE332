@@ -85,10 +85,35 @@ public class TestFourHeap {
 		assertEquals("heap is empty", 5, (long)testHeap.deleteMin());
 	}
 	
+	@Test(timeout = TIMEOUT)
+	public void test_sort() {
+		testHeap.insert(1);
+		testHeap.insert(11);
+		testHeap.insert(43);
+		testHeap.insert(37);
+		testHeap.insert(2);
+		testHeap.insert(93);
+		assert(testHeap.deleteMin() == 1);
+		assert(testHeap.deleteMin() == 2);
+		assert(testHeap.deleteMin() == 11);
+		assert(testHeap.deleteMin() == 37);
+		assert(testHeap.deleteMin() == 43);
+		assert(testHeap.deleteMin() == 93);
+	}
 	
-	
-
-
-
-
+	@Test(timeout = TIMEOUT)
+	public void test_highest_count_gets_top() {
+		testHeap.insert(1);
+		testHeap.insert(2);
+		testHeap.insert(99);
+		testHeap.insert(99);
+		testHeap.insert(20);
+		testHeap.insert(20);
+		testHeap.insert(20);
+		
+		assert(testHeap.deleteMin() == 20);
+		assert(testHeap.deleteMin() == 99);
+		assert(testHeap.deleteMin() == 1);
+		assert(testHeap.deleteMin() == 2);
+	}
 }

@@ -14,7 +14,7 @@ public class topKComparator implements Comparator<DataCount<String>>{
 		if(c1.count != c2.count) {
 			return c1.count - c2.count;
 		}
-		return alphabetical.compare(c2.data, c1.data);
+		return alphabetical.compare(c1.data, c2.data);
 	}
 }
 	

@@ -60,7 +60,7 @@ public class TestAVLTree extends TestDataCounter<String> {
 	@Test(timeout = TIMEOUT)
 	public void test_height_after_left_left_imbalance_on_child_of_root() {
 		String[] words = {"d", "e", "c", "b", "a"};
-		addAndGetHeight("Added " + Arrays.toString(words), 3, words);
+		addAndGetHeight("Added " + Arrays.toString(words), 2, words);
 	}
 	
 	@Test(timeout = TIMEOUT)
@@ -72,7 +72,7 @@ public class TestAVLTree extends TestDataCounter<String> {
 	@Test(timeout = TIMEOUT)
 	public void test_height_after_left_right_imbalance_on_child_of_root() {
 		String[] words = {"d", "c", "e", "a", "b"};
-		addAndGetHeight("Added " + Arrays.toString(words), 3, words);
+		addAndGetHeight("Added " + Arrays.toString(words), 2, words);
 	}
 
 	@Test(timeout = TIMEOUT)
@@ -84,7 +84,7 @@ public class TestAVLTree extends TestDataCounter<String> {
 	@Test(timeout = TIMEOUT)
 	public void test_height_after_right_left_imbalance_on_child_of_root() {
 		String[] words = {"b", "a", "c", "e", "d"};
-		addAndGetHeight("Added " + Arrays.toString(words), 3, words);
+		addAndGetHeight("Added " + Arrays.toString(words), 2, words);
 	}
 	
 	@Test(timeout = TIMEOUT)
@@ -96,7 +96,7 @@ public class TestAVLTree extends TestDataCounter<String> {
 	@Test(timeout = TIMEOUT)
 	public void test_height_after_right_right_imbalance_on_child_of_root() {
 		String[] words = {"b", "a", "c", "d", "e"};
-		addAndGetHeight("Added " + Arrays.toString(words), 3, words);
+		addAndGetHeight("Added " + Arrays.toString(words), 2, words);
 	}
 	
 	
@@ -148,13 +148,14 @@ public class TestAVLTree extends TestDataCounter<String> {
 		addAndCheckBalance("Added \"first\" 1 time", new String[]{"first"});
 	}
 	
-	/*@Test(timeout = TIMEOUT)
-	public void test_balance_on_large_input() {
-		String[] words = {"first", "second", "a", "a", "b", "first", "last", "second",
+	@Test(timeout = TIMEOUT)
+	public void test_balance_on_multiple_input() {
+		String[] words = new String[]{"first", "second", "a", "a", "b", "first", "last", "second",
 							"first", "a", "a", "a", "a", "b", "first", "last", "second",
 							"new", "old", "yes", "no", "maybe", "so"};
-		addAndCheckBalance("Added words", words);
-	}*/
+		
+		addAndCheckBalance("Added many words", words);
+	}
 	
 	
 	/** Test when add a new node vs. just incrementing the count for existing node===**/

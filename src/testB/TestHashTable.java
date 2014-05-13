@@ -8,7 +8,9 @@ import org.junit.Test;
 import phaseB.HashTable;
 import phaseB.StringHasher;
 import providedCode.Comparator;
+import providedCode.DataCount;
 import providedCode.DataCounter;
+import providedCode.SimpleIterator;
 import test.TestDataCounter;
 
 /**
@@ -80,7 +82,6 @@ public class TestHashTable extends TestDataCounter<String> {
 		addWords("repeat int the repeat word that's repeat idly repeat ed");
 		assertEquals(dc.getCount(new String("repeat")), 4);
 	}
-	//prob add more cases
 	
 	/** test StringHasher ===========================================================*/
 	
@@ -168,14 +169,47 @@ public class TestHashTable extends TestDataCounter<String> {
 	
 	
 	/** test iterator ===========================================================*/
-	//skeleton
 	@Test(timeout = TIMEOUT)
-	public void test_() {
-		
+	public void test_iterator_has_next_when_nothing_added() {
+		SimpleIterator<DataCount<String>> itr = dc.getIterator();
+		assertFalse(itr.hasNext());
 	}
 	
-	//test iterator- doesn't ever add anything null to it, gives back what we'd expect
+	@Test(timeout = TIMEOUT)
+	public void test_iterator_has_next_when_something_added() {
+		addWords("word");
+		SimpleIterator<DataCount<String>> itr = dc.getIterator();
+		assertTrue(itr.hasNext());
+		itr.next();
+		assertFalse(itr.hasNext());
+	}
 	
+	@Test(timeout = TIMEOUT)
+	public void test_iterator_next_give_correct_value() {
+		addWords("word");
+		SimpleIterator<DataCount<String>> itr = dc.getIterator();
+		assertTrue(itr.hasNext());
+		DataCount<String> next = itr.next();
+		assertEquals("should be 'word'", "word", next.data);
+	}
+	
+	@Test(expected = NoSuchElementException.class)
+	public void test_iterator_barf_when_next_but_nothing_added() {
+		SimpleIterator<DataCount<String>> itr = dc.getIterator();
+		itr.next();
+	}
+	
+	@Test(timeout = TIMEOUT)
+	public void test_iterator_gives_correct_number_of_values() {
+		addWords("There are seven words in this sentence");
+		SimpleIterator<DataCount<String>> itr = dc.getIterator();
+		int count = 0;
+		while(itr.hasNext()) {
+			itr.next();
+			count++;
+		}
+		assertEquals("seven words were added", 7, count);
+	}
 	
 
 	/** private helpers ===========================================================*/

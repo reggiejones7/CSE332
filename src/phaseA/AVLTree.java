@@ -55,7 +55,7 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 	/**
 	 * returns a boolean of if the AVLTree is balanced, in other words
 	 * if the absolute value of the difference in the heights of the roots'
-	 * two children is at most 1. 
+	 * two children is at most 1. For testing purposes
 	 * @return true if balanced, false otherwise
 	 * @throws NoSuchElementException if nothing is in tree yet
 	 */
@@ -193,7 +193,7 @@ public class AVLTree<E> extends BinarySearchTree<E> {
 			} else {
 				return 2;
 			}
-		} else if (height(root.right) - height(root.right) < 1) {
+		} else if (height(root.left) - height(root.right) < -1) {
 			if (height(root.right.left) - height(root.right.right) > 0) {
 				return 3;
 			} else {

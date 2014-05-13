@@ -60,7 +60,7 @@ public class Sorter {
      * @param k number of top count elements to print
      */
     public static <E> void topKSort(E[] array, Comparator<E> comparator, int k) {
-    	if (k > array.length) {
+    	if (k >= array.length) {
     		k = array.length;
     	}
     	Heap<E> heap = new FourHeap<E>(comparator);
@@ -75,7 +75,7 @@ public class Sorter {
     		}
     	}
     	
-    	for (int i = k-1; i >= 0; i--) {
+    	for (int i = 0; i < k; i++) {
     		array[i] = heap.deleteMin();
     	}	
     }    

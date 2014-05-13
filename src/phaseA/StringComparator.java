@@ -9,7 +9,8 @@ import providedCode.*;
  * Project 2
  * 
  * StringComparator implements the Comparator<String> interface
- * and is used for comparing 2 strings to each other.
+ * and is used for comparing 2 strings to each other. Compares by
+ * alphabetical order.
  */
 
 public class StringComparator implements Comparator<String>{

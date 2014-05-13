@@ -5,11 +5,10 @@ import providedCode.Heap;
 
 
 /** 
- *  TODO: REPLACE this comment with your own as appropriate.
- *  Implement the sorting methods below. Do not change the provided
- *  method signature, but you may add as many other methods as you
- *  want.
- */
+ *  The Sorter class implements a number of different sorting algorithms 
+ *  to be used by wordcount to sort a given array of data from largest to smallest count.
+ *  specifically: insertion, heap, topK (implemented via a heap), and quicksort. 
+ *  */
 public class Sorter {
 	
 	/**

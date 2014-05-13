@@ -108,4 +108,13 @@ public class TestMoveToFrontList {
 		tester.incCount(2);
 		assertEquals("2 should be put back to the front", 2, (long)tester.getFront());
 	}
+	@Test(timeout = TIMEOUT)
+	public void test_touched_element_moved_to_front() {
+		tester.incCount(0);
+		tester.incCount(1);
+		tester.incCount(2);
+		tester.getCount(0);
+		assert(tester.getFront() == 0);
+	}
+	
 }
